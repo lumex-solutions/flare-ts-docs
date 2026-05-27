@@ -1,0 +1,4 @@
+name = "flare-ts-docs"
+
+[assets]
+directory = "./dist"
