@@ -1,0 +1,109 @@
+---
+// Starlight's PAGE_TITLE_ID lives in an internal "constants" module that isn't
+// part of the public package exports — hard-coding the value here matches it.
+const PAGE_TITLE_ID = '_top';
+
+const { entry } = Astro.locals.starlightRoute;
+const slug = entry.id.replace(/\.(md|mdx)$/, '').replace(/\/index$/, '');
+const segments = slug.split('/').filter(Boolean);
+
+// Map well-known segments to canonical labels — handles acronyms and the
+// hyphenated top-level slugs ("getting-started" → "Getting Started").
+const labelMap: Record<string, string> = {
+  'getting-started': 'Getting Started',
+  concepts: 'Concepts',
+  core: 'Core',
+  lib: 'Lib',
+  http: 'HTTP',
+  'arc-model': 'Arc Model',
+  'dependency-injection': 'Dependency Injection',
+  'your-first-app': 'Your First App',
+  'failure-modes': 'Failure Modes',
+};
+
+function segmentLabel(seg: string): string {
+  if (labelMap[seg]) return labelMap[seg]!;
+  return seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+const crumbs: { label: string; href?: string; current: boolean }[] = [
+  { label: 'Docs', href: '/', current: false },
+];
+
+let pathSoFar = '';
+for (let i = 0; i < segments.length; i++) {
+  pathSoFar += '/' + segments[i];
+  const isLast = i === segments.length - 1;
+  crumbs.push({
+    label: segmentLabel(segments[i]!),
+    href: isLast ? undefined : pathSoFar + '/',
+    current: isLast,
+  });
+}
+
+const showCrumbs = segments.length > 0;
+---
+
+{showCrumbs && (
+  <nav class="flare-breadcrumb not-content" aria-label="Breadcrumb">
+    <span class="flare-breadcrumb-dot" aria-hidden="true"></span>
+    {crumbs.map((c, i) => (
+      <>
+        {i > 0 && <span class="flare-breadcrumb-sep" aria-hidden="true">/</span>}
+        {c.current
+          ? <span class="flare-breadcrumb-current" aria-current="page">{c.label}</span>
+          : <a href={c.href}>{c.label}</a>}
+      </>
+    ))}
+  </nav>
+)}
+
+<h1 id={PAGE_TITLE_ID}>{entry.data.title}</h1>
+
+<style>
+  @layer starlight.core {
+    h1 {
+      margin-top: 0.25rem;
+      font-size: var(--sl-text-h1);
+      line-height: var(--sl-line-height-headings);
+      font-weight: 700;
+      color: var(--sl-color-white);
+    }
+  }
+  .flare-breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem 0.35rem 0.625rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 999px;
+    background: var(--sl-color-gray-7);
+    font-family: var(--sl-font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--sl-color-gray-3);
+  }
+  .flare-breadcrumb a {
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+    transition: color 0.12s ease;
+  }
+  .flare-breadcrumb a:hover {
+    color: var(--sl-color-white);
+  }
+  .flare-breadcrumb-current {
+    color: var(--sl-color-white);
+  }
+  .flare-breadcrumb-sep {
+    color: var(--sl-color-gray-4);
+  }
+  .flare-breadcrumb-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--flare-mint, #2ae5a0);
+    box-shadow: 0 0 0 3px rgba(42, 229, 160, 0.18);
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
+
+// Starlight's sidebar entry shape is internal — kept loose on purpose.
+type SidebarEntry = {
+  type: 'link' | 'group';
+  label: string;
+  entries?: SidebarEntry[];
+  [key: string]: unknown;
+};
+
+// Force the "section root" link inside a group to read "Overview" whenever
+// the link's label would otherwise duplicate its parent group's label
+// (e.g. HTTP > HTTP, Lib > Lib, Concepts > Concepts). Runs at render time so
+// the underlying markdown frontmatter stays untouched.
+function relabelOverviews(entries: SidebarEntry[]): SidebarEntry[] {
+  return entries.map((entry) => {
+    if (entry.type !== 'group') return entry;
+    const children = (entry.entries ?? []).slice();
+    const first = children[0];
+    if (first && first.type === 'link' && first.label === entry.label) {
+      children[0] = { ...first, label: 'Overview' };
+    }
+    return { ...entry, entries: relabelOverviews(children) };
+  });
+}
+
+const { sidebar } = Astro.locals.starlightRoute;
+const sidebarRelabeled = relabelOverviews(sidebar as SidebarEntry[]);
+---
+
+<SidebarPersister>
+  <SidebarSublist sublist={sidebarRelabeled} />
+</SidebarPersister>
+
+<aside class="flare-sidebar-cta" aria-label="Community">
+  <div class="flare-sidebar-cta-label">Community</div>
+  <p class="flare-sidebar-cta-title">Join us on Discord</p>
+  <a class="flare-sidebar-cta-link" href="https://discord.gg/BpfrzKhhsV">
+    Open the server
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </a>
+</aside>
+
+<div class="md:sl-hidden">
+  <MobileMenuFooter />
+</div>

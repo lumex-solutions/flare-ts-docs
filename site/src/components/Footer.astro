@@ -1,0 +1,71 @@
+---
+import EditLink from 'virtual:starlight/components/EditLink';
+import LastUpdated from 'virtual:starlight/components/LastUpdated';
+import Pagination from 'virtual:starlight/components/Pagination';
+import flareWordmark from '../assets/flare-wordmark.svg';
+---
+
+<footer class="sl-flex">
+  <div class="meta sl-flex">
+    <EditLink />
+    <LastUpdated />
+  </div>
+  <Pagination />
+</footer>
+
+<div class="flare-footer not-content">
+  <div class="flare-footer-brand">
+    <img src={flareWordmark.src} alt="Flare" width="120" height="32" />
+    <p class="flare-footer-tag">
+      Composition-first TypeScript HTTP framework. One application graph for Node and Cloudflare Workers.
+    </p>
+  </div>
+
+  <div class="flare-footer-col">
+    <h3>Docs</h3>
+    <ul>
+      <li><a href="/getting-started/">Getting started</a></li>
+      <li><a href="/concepts/">Concepts</a></li>
+      <li><a href="/core/">Core</a></li>
+      <li><a href="/lib/">Lib</a></li>
+    </ul>
+  </div>
+
+  <div class="flare-footer-col">
+    <h3>Community</h3>
+    <ul>
+      <li><a href="https://github.com/lumex-solutions/flare-ts">GitHub</a></li>
+      <li><a href="https://discord.gg/BpfrzKhhsV">Discord</a></li>
+      <li><a href="https://github.com/lumex-solutions/flare-ts/discussions">Discussions</a></li>
+    </ul>
+  </div>
+
+  <div class="flare-footer-col">
+    <h3>Project</h3>
+    <ul>
+      <li><a href="https://github.com/lumex-solutions/flare-ts/releases">Changelog</a></li>
+      <li><a href="https://github.com/lumex-solutions/flare-ts/blob/main/README.md">README</a></li>
+      <li><a href="https://github.com/lumex-solutions/flare-ts/issues">Issues</a></li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  @layer starlight.core {
+    footer {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .meta {
+      gap: 0.75rem 3rem;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+      font-size: var(--sl-text-sm);
+      color: var(--sl-color-gray-3);
+    }
+    .meta > :global(p:only-child) {
+      margin-inline-start: auto;
+    }
+  }
+</style>

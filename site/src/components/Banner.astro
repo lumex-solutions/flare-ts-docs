@@ -1,0 +1,41 @@
+---
+// Sitewide banner. Falls back to per-page `banner.content` frontmatter when set.
+const route = Astro.locals.starlightRoute;
+const pageBanner = (route?.entry?.data as { banner?: { content?: string } } | undefined)?.banner;
+
+const DEFAULT_BANNER = `<strong>Flare 0.1.x is pre-release.</strong> Expect breaking changes before 1.0 — see the <a href="https://github.com/lumex-solutions/flare-ts/blob/main/CHANGELOG.md">changelog</a>.`;
+const html = pageBanner?.content ?? DEFAULT_BANNER;
+---
+
+<div class="flare-banner not-content" set:html={html} />
+
+<style>
+  .flare-banner {
+    position: relative;
+    padding: 0.55rem 1.25rem;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--sl-color-gray-1);
+    background: linear-gradient(
+      90deg,
+      rgba(42, 229, 160, 0.08),
+      rgba(42, 229, 160, 0.04) 40%,
+      rgba(42, 229, 160, 0.08)
+    );
+    border-bottom: 1px solid var(--sl-color-hairline);
+  }
+  .flare-banner :global(strong) {
+    color: var(--flare-mint);
+    font-weight: 700;
+  }
+  .flare-banner :global(a) {
+    color: var(--flare-mint);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    font-weight: 500;
+  }
+  .flare-banner :global(a:hover) {
+    color: var(--flare-mint-bright);
+  }
+</style>

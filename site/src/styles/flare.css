@@ -1,0 +1,781 @@
+/* Flare docs — refined, product-grade styling matched to the mockup. */
+
+:root {
+  /* Brand */
+  --flare-mint:        #2ae5a0;
+  --flare-mint-bright: #5cffb6;
+  --flare-mint-deep:   #1fb37c;
+
+  /* Surface tones (dark) */
+  --flare-canvas:      #0a0d0e;
+  --flare-canvas-2:    #0d1113;
+  --flare-surface:     #11161a;
+  --flare-surface-2:   #161c20;
+  --flare-rail:        #08090a;
+
+  /* Hairlines */
+  --flare-rule:        #1c2327;
+  --flare-rule-strong: #243036;
+
+  /* Text */
+  --flare-text:        #fafafa;
+  --flare-text-mute-1: #d6dbdf;
+  --flare-text-mute-2: #a8aeb4;
+  --flare-text-mute-3: #7a8088;
+  --flare-text-mute-4: #5a6066;
+
+  /* Accents (semantic) */
+  --flare-note:    #7ac7ff;
+  --flare-tip:     #a5e075;
+  --flare-warn:    #f5c26b;
+
+  /* Surface tones (light, for the alt theme) */
+  --flare-paper:   #fafafa;
+  --flare-paper-2: #f2f2ef;
+  --flare-ink:     #1a1d1f;
+
+  --flare-radius:  6px;
+
+  --sl-font: 'Inter Tight', system-ui, -apple-system, sans-serif;
+  --sl-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --sl-line-height: 1.65;
+  --sl-line-height-headings: 1.15;
+  --sl-content-width: 48rem;
+  --sl-sidebar-width: 17rem;
+  --sl-text-h1: 2.5rem;
+  --sl-text-h2: 1.625rem;
+  --sl-text-h3: 1.25rem;
+
+  /* Header — taller than default to fit a larger logo + 2.5rem search field,
+     reduced vertical padding so the content sits comfortably centered. */
+  --sl-nav-height: 4.25rem;
+  --sl-nav-pad-y: 0.5rem;
+}
+
+/* ── Dark (default) ── */
+:root[data-theme='dark'],
+[data-theme='dark'] ::backdrop {
+  --sl-color-accent-low:    rgba(42, 229, 160, 0.12);
+  --sl-color-accent:        var(--flare-mint);
+  --sl-color-accent-high:   var(--flare-mint-bright);
+  --sl-color-white:         var(--flare-text);
+  --sl-color-gray-1:        var(--flare-text-mute-1);
+  --sl-color-gray-2:        var(--flare-text-mute-2);
+  --sl-color-gray-3:        var(--flare-text-mute-3);
+  --sl-color-gray-4:        var(--flare-text-mute-4);
+  --sl-color-gray-5:        var(--flare-rule-strong);
+  --sl-color-gray-6:        var(--flare-surface);
+  --sl-color-gray-7:        var(--flare-surface-2);
+  --sl-color-black:         var(--flare-canvas);
+  --sl-color-text:          var(--flare-text-mute-1);
+  --sl-color-text-accent:   var(--flare-mint);
+  --sl-color-text-invert:   var(--flare-canvas);
+  --sl-color-bg:            var(--flare-canvas);
+  --sl-color-bg-nav:        rgba(10, 13, 14, 0.85);
+  --sl-color-bg-sidebar:    var(--flare-canvas-2);
+  --sl-color-bg-inline-code: var(--flare-surface);
+  --sl-color-bg-accent:     var(--flare-mint);
+  --sl-color-hairline-light: var(--flare-rule);
+  --sl-color-hairline:      var(--flare-rule);
+  --sl-color-hairline-shade: var(--flare-rule-strong);
+  --sl-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --sl-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.55);
+  --sl-shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Light ── */
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+  --sl-color-accent-low: #d4f7e8;
+  --sl-color-accent: var(--flare-mint-deep);
+  --sl-color-accent-high: var(--flare-mint);
+  --sl-color-white: var(--flare-ink);
+  --sl-color-gray-1: #2e3236;
+  --sl-color-gray-2: #4a4f54;
+  --sl-color-gray-3: #6b7076;
+  --sl-color-gray-4: #9a9ea3;
+  --sl-color-gray-5: #d4d4d0;
+  --sl-color-gray-6: var(--flare-paper-2);
+  --sl-color-gray-7: var(--flare-paper);
+  --sl-color-black: #ffffff;
+  --sl-color-text: #4a4f54;
+  --sl-color-text-accent: var(--flare-mint-deep);
+  --sl-color-text-invert: #ffffff;
+  --sl-color-bg: var(--flare-paper-2);
+  --sl-color-bg-nav: rgba(250, 250, 250, 0.9);
+  --sl-color-bg-sidebar: var(--flare-paper);
+  --sl-color-bg-inline-code: var(--flare-paper-2);
+  --sl-color-bg-accent: var(--flare-mint);
+  --sl-color-hairline-light: #e0e0dc;
+  --sl-color-hairline: #d4d4d0;
+  --sl-color-hairline-shade: #c8c8c4;
+  --sl-shadow-sm: 0 1px 2px rgba(26, 29, 31, 0.06);
+  --sl-shadow-md: 0 4px 12px rgba(26, 29, 31, 0.08);
+  --sl-shadow-lg: 0 12px 32px rgba(26, 29, 31, 0.1);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'ss01', 'cv11';
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   HEADER
+   ───────────────────────────────────────────────────────────────────────── */
+/* The outer sticky bar — uses Starlight's --sl-nav-height + --sl-nav-pad-y
+   so inner content centers naturally via Starlight's own flex layout. */
+.header {
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--sl-color-hairline) !important;
+}
+
+/* Inner flex container — make sure items center vertically regardless of size */
+.header > .header {
+  align-items: center !important;
+}
+
+.site-title {
+  color: var(--sl-color-white);
+  gap: 0.625rem;
+}
+
+/* Logo — bumped to 2.5rem for stronger presence */
+.site-title img,
+.site-title svg,
+.site-title .flare-mark {
+  height: 2.5rem !important;
+  width: auto;
+}
+
+/* Search button — theme-aware surface, taller to match the logo */
+site-search button[data-open-modal] {
+  border-radius: var(--flare-radius) !important;
+  border: 1px solid var(--sl-color-hairline) !important;
+  background: var(--sl-color-gray-7) !important;
+  color: var(--sl-color-gray-3) !important;
+  min-width: 18rem;
+  height: 2.5rem;
+  padding-inline: 0.875rem !important;
+}
+
+site-search button[data-open-modal]:hover {
+  border-color: var(--sl-color-hairline-shade) !important;
+  background: var(--sl-color-gray-6) !important;
+  color: var(--sl-color-white) !important;
+}
+
+site-search button[data-open-modal] kbd {
+  background: transparent;
+  color: var(--sl-color-gray-3);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 3px;
+  padding: 0 0.25rem;
+  font-family: var(--sl-font-mono);
+  font-size: 0.72rem;
+}
+
+/* Theme select / social icons */
+.social-icons a {
+  color: var(--sl-color-gray-3);
+}
+
+.social-icons a:hover {
+  color: var(--sl-color-white);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SIDEBAR
+   ───────────────────────────────────────────────────────────────────────── */
+.sidebar-pane {
+  border-inline-end: 1px solid var(--sl-color-hairline) !important;
+  background: var(--sl-color-bg-sidebar);
+}
+
+.sidebar-content {
+  padding: 1.25rem 0.75rem !important;
+}
+
+/* Top-level group label — mono caps eyebrow (CORE, GETTING STARTED, …) */
+.sidebar-content .top-level > li > details > summary .large {
+  font-family: var(--sl-font-mono);
+  font-size: 0.66rem !important;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3) !important;
+}
+
+/* Top-level summary — inline padding matches link padding so labels align */
+.sidebar-content .top-level > li > details > summary {
+  padding: 0.5rem 0.625rem;
+}
+
+/* Top-level summary hover is subtle (it's a label, not a clickable row) */
+.sidebar-content .top-level > li > details > summary:hover {
+  background: transparent;
+}
+
+/* Nested group label (HTTP inside Core) — looks like a normal nav row */
+.sidebar-content ul ul .large {
+  font-family: var(--sl-font) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--sl-color-gray-2) !important;
+}
+
+.sidebar-content ul ul summary {
+  padding: 0.4rem 0.625rem !important;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.sidebar-content ul ul summary:hover {
+  background: var(--sl-color-gray-6);
+}
+
+.sidebar-content ul ul summary:hover .large {
+  color: var(--sl-color-white) !important;
+}
+
+.sidebar-content ul ul summary svg.caret {
+  width: 0.9rem !important;
+  height: 0.9rem !important;
+  --sl-icon-size: 0.9rem !important;
+  color: var(--sl-color-gray-3);
+}
+
+/* Item rows */
+.sidebar-content a {
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.4rem 0.625rem !important;
+  color: var(--sl-color-gray-2);
+  transition:
+    color 0.12s ease,
+    background 0.12s ease;
+}
+
+.sidebar-content a:hover,
+.sidebar-content a:focus-visible {
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+}
+
+/* Indent guide lives on each <li>, not the <ul>. This way the first child
+   (the Overview) gets neither indent nor border — it sits flush with the
+   parent summary's text — while every sibling gets the connecting hairline
+   on its own left edge. No double-border artifacts at section boundaries. */
+.sidebar-content ul ul > li + li {
+  margin-inline-start: 0.5rem;
+  padding-inline-start: 0.5rem;
+  border-inline-start: 1px solid var(--sl-color-hairline);
+}
+
+/* Active row — mint fill, ink text */
+.sidebar-content a[aria-current='page'] {
+  background: var(--flare-mint) !important;
+  color: var(--flare-canvas) !important;
+  font-weight: 600;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04) inset;
+}
+
+[data-theme='light'] .sidebar-content a[aria-current='page'] {
+  background: var(--flare-mint) !important;
+  color: var(--flare-ink) !important;
+}
+
+/* Nested <ul> contributes no indent or border itself — the connecting
+   hairlines are drawn per-<li> below so the first child can sit flush. */
+.sidebar-content ul ul {
+  border-inline-start: none !important;
+  margin-inline-start: 0;
+  padding-inline-start: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SIDEBAR CTA (custom)
+   ───────────────────────────────────────────────────────────────────────── */
+.flare-sidebar-cta {
+  margin: 1rem 0.75rem 0;
+  padding: 0.875rem 1rem 1rem;
+  border: 1px solid var(--sl-color-hairline-shade);
+  border-radius: var(--flare-radius);
+  background: linear-gradient(
+    180deg,
+    rgba(42, 229, 160, 0.06),
+    rgba(42, 229, 160, 0.02)
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.flare-sidebar-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--flare-mint);
+}
+
+.flare-sidebar-cta-label {
+  font-family: var(--sl-font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--flare-mint);
+}
+
+.flare-sidebar-cta-title {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--sl-color-white);
+  letter-spacing: -0.01em;
+}
+
+.flare-sidebar-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--flare-mint);
+  text-decoration: none;
+}
+
+.flare-sidebar-cta-link:hover {
+  color: var(--flare-mint-bright);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   RIGHT TOC
+   ───────────────────────────────────────────────────────────────────────── */
+.right-sidebar {
+  border-inline-start: 1px solid var(--sl-color-hairline) !important;
+}
+
+.right-sidebar-panel h2 {
+  font-family: var(--sl-font-mono);
+  font-size: 0.62rem !important;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3) !important;
+  margin-bottom: 0.5rem;
+}
+
+.right-sidebar-panel a {
+  border-radius: 0;
+  border-inline-start: 1px solid transparent;
+  padding-block: 0.3rem;
+  padding-inline-start: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--sl-color-gray-3);
+  transition:
+    color 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.right-sidebar-panel a:hover {
+  color: var(--sl-color-white);
+  background: transparent;
+}
+
+.right-sidebar-panel a[aria-current='true'] {
+  color: var(--sl-color-white) !important;
+  border-inline-start-color: var(--flare-mint) !important;
+  background: transparent;
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   MAIN CONTENT — no boxy card, breathing room
+   ───────────────────────────────────────────────────────────────────────── */
+@media (min-width: 50rem) {
+  .main-pane > main {
+    padding-top: 2.5rem;
+    padding-bottom: 5rem; /* leave room for the bottom bar */
+  }
+}
+
+.content-panel + .content-panel {
+  border-top: none !important;
+}
+
+/* Strip the heavy card — let the canvas do the work */
+.content-panel:has(.sl-markdown-content) .sl-container,
+.content-panel:has(h1#_top) .sl-container {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* H1 hero with mint accent bar */
+h1#_top {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-size: var(--sl-text-h1);
+  color: var(--sl-color-white) !important;
+  margin-bottom: 0.5rem;
+}
+
+h1#_top::before {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 4px;
+  margin-bottom: 1.5rem;
+  background: var(--flare-mint);
+  border-radius: 1px;
+}
+
+/* Description / lead paragraph (rendered by Starlight under H1) */
+.content-panel .sl-container > p:first-of-type,
+.hero-html + p,
+.sl-markdown-content > p:first-child {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--sl-color-gray-1);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   PROSE
+   ───────────────────────────────────────────────────────────────────────── */
+.sl-markdown-content {
+  font-size: 1rem;
+}
+
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--sl-color-white) !important;
+}
+
+.sl-markdown-content h2:not(:where(.not-content *)) {
+  margin-top: 3rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--sl-color-hairline);
+  font-size: var(--sl-text-h2);
+}
+
+.sl-markdown-content h3:not(:where(.not-content *)) {
+  margin-top: 2rem;
+  font-size: var(--sl-text-h3);
+}
+
+.sl-markdown-content p:not(:where(.not-content *)) {
+  line-height: 1.7;
+  color: var(--sl-color-gray-1);
+}
+
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--flare-mint);
+  font-weight: 500;
+  text-decoration-color: rgba(42, 229, 160, 0.4);
+  text-underline-offset: 0.2em;
+}
+
+.sl-markdown-content a:hover:not(:where(.not-content *)) {
+  color: var(--flare-mint-bright);
+  text-decoration-color: currentColor;
+}
+
+[data-theme='light'] .sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--flare-mint-deep);
+}
+
+[data-theme='light'] .sl-markdown-content a:hover:not(:where(.not-content *)) {
+  color: var(--flare-mint-deep);
+  text-decoration-color: currentColor;
+}
+
+/* Inline code */
+.sl-markdown-content code:not(:where(.not-content *)) {
+  background: var(--sl-color-bg-inline-code);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 4px;
+  padding: 0.08em 0.35em;
+  font-size: 0.875em;
+  font-weight: 500;
+  color: var(--sl-color-white);
+}
+
+/* Lists — tighter, with mint bullets */
+.sl-markdown-content ul:not(:where(.not-content *)) > li::marker {
+  color: var(--flare-mint);
+}
+
+/* Blockquote — kept on-brand */
+.sl-markdown-content blockquote:not(:where(.not-content *)) {
+  border-inline-start: 3px solid var(--flare-mint);
+  padding: 0.75rem 1rem;
+  background: var(--sl-color-gray-6);
+  border-radius: 0 var(--flare-radius) var(--flare-radius) 0;
+  color: var(--sl-color-gray-1);
+  font-style: italic;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   TABLES — clean grid, mono headers
+   ───────────────────────────────────────────────────────────────────────── */
+.sl-markdown-content table:not(:where(.not-content *)) {
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: var(--flare-radius);
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
+  border-bottom: 1px solid var(--sl-color-hairline);
+  padding: 0.6rem 0.9rem;
+}
+
+.sl-markdown-content tr:last-child :is(th, td):not(:where(.not-content *)) {
+  border-bottom: 0;
+}
+
+.sl-markdown-content th:not(:where(.not-content *)) {
+  background: var(--sl-color-gray-6);
+  font-family: var(--sl-font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-2);
+  text-align: left;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   CODE BLOCKS (Astro Expressive Code)
+   Restyle the frame to a tighter, terminal-feeling block.
+   ───────────────────────────────────────────────────────────────────────── */
+.expressive-code {
+  --ec-frm-edgeS: 1px;
+  --ec-frm-frameBoxShdCssVal: none;
+  margin-block: 1.25rem;
+}
+
+.expressive-code .frame {
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: var(--flare-radius);
+  background: var(--flare-canvas-2);
+  overflow: hidden;
+}
+
+[data-theme='light'] .expressive-code .frame {
+  background: #ffffff;
+}
+
+.expressive-code .frame .header {
+  height: 2.25rem !important;
+  background: var(--flare-surface);
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+
+[data-theme='light'] .expressive-code .frame .header {
+  background: var(--flare-paper-2);
+}
+
+.expressive-code .frame .title {
+  font-family: var(--sl-font-mono);
+  font-size: 0.78rem !important;
+  font-weight: 500;
+  color: var(--sl-color-gray-2) !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.expressive-code .frame .title::after {
+  display: none !important;
+}
+
+.expressive-code .frame.is-terminal .title::before {
+  background-color: transparent !important;
+}
+
+.expressive-code pre {
+  background: transparent !important;
+  border: none !important;
+  padding: 1rem 1.125rem !important;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.expressive-code .copy button {
+  border-radius: 4px;
+  background: var(--flare-surface-2) !important;
+  border: 1px solid var(--sl-color-hairline) !important;
+}
+
+.expressive-code .copy button:hover {
+  border-color: var(--flare-mint) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   CALLOUTS (Starlight :::note ::: aside)
+   ───────────────────────────────────────────────────────────────────────── */
+.sl-markdown-content .starlight-aside {
+  border: 1px solid var(--sl-color-hairline);
+  border-inline-start-width: 3px;
+  border-radius: var(--flare-radius);
+  background: var(--flare-canvas-2);
+  padding: 0.875rem 1rem;
+  margin-block: 1.25rem;
+}
+
+[data-theme='light'] .sl-markdown-content .starlight-aside {
+  background: #ffffff;
+}
+
+.sl-markdown-content .starlight-aside--note {
+  border-inline-start-color: var(--flare-note);
+}
+
+.sl-markdown-content .starlight-aside--tip {
+  border-inline-start-color: var(--flare-mint);
+}
+
+.sl-markdown-content .starlight-aside--caution {
+  border-inline-start-color: var(--flare-warn);
+}
+
+.sl-markdown-content .starlight-aside--danger {
+  border-inline-start-color: #ff6a83;
+}
+
+.sl-markdown-content .starlight-aside__title {
+  font-family: var(--sl-font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sl-color-white);
+  margin-bottom: 0.35rem;
+}
+
+.sl-markdown-content .starlight-aside--note .starlight-aside__title { color: var(--flare-note); }
+.sl-markdown-content .starlight-aside--tip .starlight-aside__title { color: var(--flare-mint); }
+.sl-markdown-content .starlight-aside--caution .starlight-aside__title { color: var(--flare-warn); }
+.sl-markdown-content .starlight-aside--danger .starlight-aside__title { color: #ff6a83; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   PAGINATION (Previous / Next)
+   ───────────────────────────────────────────────────────────────────────── */
+.pagination-links {
+  margin-top: 3rem;
+}
+
+.pagination-links a {
+  border: 1px solid var(--sl-color-hairline) !important;
+  border-radius: var(--flare-radius) !important;
+  background: var(--flare-canvas-2);
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.pagination-links a:hover {
+  border-color: var(--flare-mint) !important;
+  background: var(--sl-color-gray-6);
+}
+
+[data-theme='light'] .pagination-links a {
+  background: #ffffff;
+}
+
+.pagination-links .link-title {
+  color: var(--sl-color-white) !important;
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   FOOTER
+   ───────────────────────────────────────────────────────────────────────── */
+footer.sl-flex {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--sl-color-hairline);
+}
+
+/* Custom site footer (rendered via Footer override) */
+.flare-footer {
+  border-top: 1px solid var(--sl-color-hairline);
+  margin-top: 4rem;
+  padding: 2.5rem 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 2rem;
+  font-size: 0.85rem;
+}
+
+.flare-footer-brand img,
+.flare-footer-brand svg {
+  height: 1.5rem;
+  width: auto;
+  margin-bottom: 0.75rem;
+}
+
+.flare-footer-tag {
+  color: var(--sl-color-gray-3);
+  max-width: 22rem;
+}
+
+.flare-footer-col h3 {
+  font-family: var(--sl-font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3);
+  margin: 0 0 0.75rem;
+}
+
+.flare-footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.flare-footer-col a {
+  color: var(--sl-color-gray-1);
+  text-decoration: none;
+}
+
+.flare-footer-col a:hover {
+  color: var(--flare-mint);
+}
+
+@media (max-width: 50rem) {
+  .flare-footer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Mobile TOC */
+nav:has(#starlight__mobile-toc) {
+  border-top: 1px solid var(--sl-color-hairline) !important;
+}
