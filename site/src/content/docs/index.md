@@ -3,9 +3,9 @@ title: Flare
 description: Composition-first TypeScript HTTP framework. One application graph for Node and Cloudflare Workers, validated before traffic.
 ---
 
-**Flare** is a composition-first TypeScript HTTP framework. You register config, services, and routes on a `FlareHost`, then call `host.build()` to get a runtime app you can `.run()` on Node or `.export()` on Cloudflare Workers. At build time the framework resolves config, bootstraps the logger, validates your registrations, and compiles route pipelines. Build failures throw before any port binds or `fetch` handler is exported — see [Failure modes](/core/failure-modes/).
+**Flare** is a composition-first TypeScript HTTP framework for Node.js and Cloudflare Workers. You register config, services, and routes on a `FlareHost`, then call `host.build()` to get a compiled app object. That object exposes `.run()` on Node and `.export()` on Workers. Swap the runtime adapter; routes, services, contracts, and middleware stay the same.
 
-The same registrations run on **Node.js** and **Cloudflare Workers**. Swap the runtime adapter; routes, services, contracts, and middleware stay the same.
+`host.build()` resolves config, bootstraps the logger, validates every registration, and compiles route pipelines. If anything is invalid, build throws before any port binds or `fetch` handler is exported. See [Failure modes](/core/failure-modes/).
 
 **Zero third-party runtime dependencies.** `@flare-ts/lib` ships with none; `@flare-ts/core` depends only on `@flare-ts/lib`.
 
@@ -31,7 +31,9 @@ const app = host.build();
 app.run();
 ```
 
-On Node, the `node` adapter reads `flare.json` from the project root when the file exists (if it is missing, defaults apply plus `FLARE__*` env overrides). Call `app.run()` to bind the HTTP server; the listen port comes from `flare.json` `host.port` (default **3000**).
+`new FlareHost(node)` creates a host using the Node adapter. The adapter reads `flare.json` from the project root when the file exists; if it's missing, defaults apply plus `FLARE__*` env overrides.
+
+`host.build()` validates registrations and compiles route pipelines, returning a compiled app. `app.run()` binds the HTTP server on the port from `flare.json` `host.port` (default **3000**) and begins accepting requests.
 
 Continue with [Your First App](/getting-started/your-first-app/) for `curl` and project layout.
 
@@ -56,6 +58,8 @@ export default app.export();
 FLARE__log__level = "warn"
 ```
 
+`app.export()` returns the `ExportedHandler` that Cloudflare invokes on each request.
+
 Enable **`nodejs_compat`** in `wrangler.toml` `compatibility_flags`. Without it, Workers deployments fail at startup when the logger needs Node.js compatibility APIs. Per-request log context on Node requires `log.enableContext: true` in `flare.json`; on Workers, see [Logger](/core/logger/) for what context is available today.
 
 If you need bundled `flare.json` settings in the Worker artifact, use `buildCf`:
@@ -70,6 +74,8 @@ const host = new FlareHost(buildCf(flareJson));
 const app = host.build();
 export default app.export();
 ```
+
+`buildCf(json)` merges the imported JSON into the adapter config so the values are available at build time, before `FLARE__*` env overrides apply.
 
 ## Where to go next
 
