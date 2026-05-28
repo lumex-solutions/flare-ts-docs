@@ -1,37 +1,11 @@
 ---
+import flareLogo from '../assets/flare-logo.png';
 const { siteTitleHref } = Astro.locals.starlightRoute;
 const VERSION = '0.1.x';
 ---
 
 <a href={siteTitleHref} class="site-title sl-flex">
-  <svg
-    class="flare-mark"
-    viewBox="0 0 184 48"
-    role="img"
-    aria-label="Flare"
-    width="120"
-    height="32"
-  >
-    <g fill="#2ae5a0" transform="translate(4 0)">
-      <rect x="12" y="0" width="6" height="6"/>
-      <rect x="12" y="6" width="6" height="6"/><rect x="18" y="6" width="6" height="6"/>
-      <rect x="6" y="12" width="6" height="6"/><rect x="12" y="12" width="6" height="6"/><rect x="18" y="12" width="6" height="6"/><rect x="24" y="12" width="6" height="6"/>
-      <rect x="6" y="18" width="6" height="6"/><rect x="12" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="24" y="18" width="6" height="6"/>
-      <rect x="0" y="24" width="6" height="6"/><rect x="6" y="24" width="6" height="6"/><rect x="12" y="24" width="6" height="6"/><rect x="18" y="24" width="6" height="6"/><rect x="24" y="24" width="6" height="6"/><rect x="30" y="24" width="6" height="6"/>
-      <rect x="0" y="30" width="6" height="6"/><rect x="6" y="30" width="6" height="6"/><rect x="12" y="30" width="6" height="6"/><rect x="18" y="30" width="6" height="6"/><rect x="24" y="30" width="6" height="6"/><rect x="30" y="30" width="6" height="6"/>
-      <rect x="0" y="36" width="6" height="6"/><rect x="6" y="36" width="6" height="6"/><rect x="12" y="36" width="6" height="6"/><rect x="18" y="36" width="6" height="6"/><rect x="24" y="36" width="6" height="6"/><rect x="30" y="36" width="6" height="6"/>
-      <rect x="6" y="42" width="6" height="6"/><rect x="12" y="42" width="6" height="6"/><rect x="18" y="42" width="6" height="6"/><rect x="24" y="42" width="6" height="6"/>
-    </g>
-    <text
-      x="50"
-      y="38"
-      font-family="'Inter Tight', system-ui, -apple-system, sans-serif"
-      font-weight="900"
-      font-size="40"
-      letter-spacing="-1.5"
-      fill="currentColor"
-    >flare</text>
-  </svg>
+  <img src={flareLogo.src} alt="Flare" class="flare-mark" />
   <span class="sr-only">Flare</span>
   <span class="flare-version" aria-label={`Version ${VERSION}`}>{VERSION}</span>
 </a>
@@ -39,7 +13,7 @@ const VERSION = '0.1.x';
 <style>
   @layer starlight.core {
     .site-title {
-      align-items: center;
+      align-items: flex-end;
       gap: 0.625rem;
       text-decoration: none;
       white-space: nowrap;
