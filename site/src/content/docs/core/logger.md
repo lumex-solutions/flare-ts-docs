@@ -15,6 +15,8 @@ Every Flare app gets a structured `Logger` during `host.build()`. Each log call 
 | `LogLevel`           | type  | `"trace"` \| `"debug"` \| `"info"` \| `"warn"` \| `"error"` \| `"fatal"`                                 |
 | `LogRecord`          | type  | Payload passed to every transport's `write()`                                                            |
 | `HttpErrorContext`   | type  | HTTP request context for error handlers (see below)                                                      |
+| `captureLogStore`    | fn    | Snapshot active log context/state for deferred callbacks                                                  |
+| `runWithLogStore`    | fn    | Re-enter a captured log context/state before running a callback                                           |
 | `LOG_CONFIG`         | token | Config token for the `log` section; use with `static config` and `this.config(LOG_CONFIG)` on transports |
 
 Resolved `log` field shapes are typed as `FlareLogConfig` on `host.config.log`. See [Config → LOG_CONFIG](/core/config/#log_config-and-flarelogconfig).
@@ -198,11 +200,25 @@ With `log.enableContext: true`, the framework copies active log context onto eac
 | Context                                                  | When it appears on `record.context`                           |
 | -------------------------------------------------------- | ------------------------------------------------------------- |
 | `source: "flare:host"`                                   | During `host.build()` on every runtime.                       |
-| `source: "flare:http"` with `requestId`, `method`, `url` | **Node adapter only:** each incoming request before dispatch. |
+| `source: "flare:http"` with `requestId`, `method`, `url` | During each incoming HTTP request when `log.enableContext` is `true`. |
 
-On Cloudflare Workers, HTTP handlers do not receive automatic `flare:http` fields from config alone. Host-scoped context during `build()` still applies.
+On Cloudflare Workers, request-scoped context does not propagate into [`waitUntil`](https://developers.cloudflare.com/workers/runtime-apis/context/#waituntil) callbacks automatically. For deferred work, snapshot the current store and re-enter it:
 
-Request-scoped context does not propagate into Cloudflare Workers [`waitUntil`](https://developers.cloudflare.com/workers/runtime-apis/context/#waituntil) callbacks. Log from deferred work with explicit fields in the log call's `meta` argument (for example `requestId`) instead of relying on `record.context`.
+```ts
+import { captureLogStore, runWithLogStore } from "@flare-ts/core";
+
+host.http.get("/jobs", (ctx) => {
+  const store = captureLogStore();
+
+  ctx.req.background(async () => {
+    runWithLogStore(store, () => {
+      host.logger.info("deferred job started");
+    });
+  });
+
+  return new FlareResponse(202, { queued: true });
+});
+```
 
 ## Workers vs Node
 
