@@ -23,7 +23,7 @@ match route
   → response serializer (when declared)
 ```
 
-Route and query validation run **before** `before` middleware. JSON body validation runs **after** `before`, immediately before the handler. In `before` hooks you can use `extract().route` and `extract().query`; for JSON `body` contracts, wait until the handler unless you read the raw body from `ctx.req`. When the descriptor opts into streaming, the inbound stream is attached before `before` runs. Use `ctx.req.stream()` or `extract().body` (cast) in middleware or the handler.
+Route and query validation run **before** `before` middleware. JSON body validation runs **after** `before`, immediately before the handler. In `before` hooks you can use `extract().route` and `extract().query`; for JSON `body` contracts, wait until the handler unless you read the raw body from `ctx.req`. When the descriptor opts into streaming, the inbound stream is attached before `before` runs. Use `ctx.req.stream()` or `extract().body` in middleware or the handler.
 
 Contract validation failures return **400** or **413** with the bodies in [Validation failures](#validation-failures). They never enter `host.http.error` dispatch. See [HTTP errors → What bypasses handlers](/core/http/errors/#what-bypasses-handlers).
 
@@ -128,6 +128,8 @@ Values are percent-decoded (`+` as space) before coercion. Duplicate values for 
 ## Schema primitives from `@flare-ts/lib/schema`
 
 Every descriptor leaf — primitives, combinators, `schema(...)`, and `model(...)` — is imported from `@flare-ts/lib/schema`. `@flare-ts/core` does not re-export them.
+
+The streaming contract marker is different: import `stream` from `@flare-ts/core`. It is an HTTP contract marker, not a schema primitive.
 
 | Export      | Role                                                   |
 | ----------- | ------------------------------------------------------ |
@@ -237,9 +239,13 @@ A **plain object** return is normalized as **200**, so only the `200` schema app
 
 Flare can skip JSON buffering and pass the native inbound stream through when the descriptor declares a streaming body. The handler (and `before` middleware on those routes) can iterate `ctx.req.stream()`.
 
-There is no `stream` primitive on the `@flare-ts/core` export surface yet. Until it ships, prefer `ctx.req.stream()` without a body contract, or omit body validation on raw upload routes.
+```ts
+import { stream } from "@flare-ts/core";
+```
 
-At runtime on Node adapters, `extract().body` is the same async iterable as `ctx.req.stream()`. On Workers-style adapters it is the full `Request` object while `ctx.req.stream()` returns `Request.body`; prefer `ctx.req.stream()` for portable streaming. TypeScript types for `extract().body` on streaming descriptors may be incomplete; cast when needed.
+`extract().body` for a streaming descriptor is the same async iterable returned by `ctx.req.stream()` across adapters.
+
+`maxBodyBytes` (or global `host.maxBodyBytes`) is enforced while iterating stream chunks. Exceeding the cap returns **413** with `{ error: "ContentTooLarge", code: 413, detail: { maxBytes } }`.
 
 ## Validation failures
 

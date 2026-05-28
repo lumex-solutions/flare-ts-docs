@@ -130,7 +130,7 @@ With a JSON body contract, an empty or missing body becomes `extract().body === 
 
 ### `body: stream` in the contract
 
-Flare does not buffer JSON for stream body contracts. The inbound stream is available when the route matches, before `before` middleware runs. Iterate `ctx.req.stream()` for portable streaming. See [Contracts → Streaming request bodies](/core/http/contracts/#streaming-request-bodies) for `extract().body` on stream descriptors and workarounds while the `stream` primitive is not on the public export surface.
+Flare does not buffer JSON for stream body contracts. The inbound stream is available when the route matches, before `before` middleware runs. Iterate `ctx.req.stream()` or consume `ctx.extract(descriptor).body`; both reference the same stream iterable. Import the marker from `@flare-ts/core` and see [Contracts → Streaming request bodies](/core/http/contracts/#streaming-request-bodies) for examples.
 
 ## Related
 
